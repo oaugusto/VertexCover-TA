@@ -25,10 +25,6 @@ clean:
 
 # Tests
 tester:
-	$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
-
-# Spikes
-ticket:
-	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+	$(CC) $(CFLAGS) test/tester.c $(INC) $(LIB) -o bin/tester
 
 .PHONY: clean
