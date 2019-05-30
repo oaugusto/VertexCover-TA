@@ -23,7 +23,7 @@ int isEdge(graph* g, int a, int b);
 
 void insertEdge(graph* g, int a, int b, W_t w);
 
-//void removeEdge(graph* g, int a, int b);
+void removeEdge(graph* g, int a, int b);
 
 void printGraph(graph* g);
 

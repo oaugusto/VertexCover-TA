@@ -69,3 +69,7 @@ V_t vertexCoverTreeSolver(graph *tree, V_t root) {
 
     return min_value;
 }
+
+V_t vertexCoverHeuristic(graph* tree) {
+    
+}

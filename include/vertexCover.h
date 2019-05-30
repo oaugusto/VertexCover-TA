@@ -6,6 +6,9 @@
 
 V_t min(V_t x, V_t y);
 
-V_t vertexCoverTreeSolver(graph *g, V_t root);
+/* Find the minimum vertex cover for a tree using dynamic programming */
+V_t vertexCoverTreeSolver(graph *tree, V_t root);
+
+V_t vertexCoverHeuristic(graph* tree);
 
 #endif

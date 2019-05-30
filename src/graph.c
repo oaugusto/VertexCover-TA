@@ -71,7 +71,7 @@ void insertEdge(graph* g, int a, int b, W_t w) {
     g->edges[b] = e2;
 
     //increment the number of edges,
-    //considering only one edge between
+    //considering only one edge between a and b
     g->nEdges++;
 
 }
@@ -91,6 +91,57 @@ void printGraph(graph* g) {
         printf("\n");
     }
 
+}
+
+void removeEdge(graph* g, int a, int b) {
+    pointer prev = NULL;
+    pointer next = g->edges[a];
+
+    if (next == NULL) {
+        printf("Error: no edge to delete!\n");
+        return;
+    }
+
+    //delete edge from a to b
+
+    while (next != NULL && next->id != b) {
+        prev = next;
+        next = next->next;
+    }
+
+    if (next == NULL) {
+        printf("Error: no edge (%d, %d)\n", a, b);
+        return;
+    }
+
+    if (prev == NULL) {
+        g->edges[a] = NULL;
+        free(next);
+    } else { 
+        prev->next = next->next;
+        free(next);
+    }
+
+    //delete edge from b to a
+
+    prev = NULL;
+    next = g->edges[b];
+
+    while (next != NULL && next->id != a) {
+        prev = next;
+        next = next->next;
+    }
+
+    if (prev == NULL) {
+        g->edges[a] = NULL;
+        free(next);
+    } else { 
+        prev->next = next->next;
+        free(next);
+    }
+
+    //decrease the number of edges
+    g->nEdges--;
 }
 
 void removeGraph(graph* g) {
