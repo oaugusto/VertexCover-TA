@@ -3,57 +3,91 @@
 #include <string.h>
 
 #include "graph.h"
-
-int min(int x, int y) { return (x < y)? x: y; }
-
-/*
- * https://www.geeksforgeeks.org/vertex-cover-problem-set-2-dynamic-programming-solution-tree/
- * Adaptando esse algoritmo
- */
-int vCover(int node, int n, int m, graph *g, int *dp) {
-    int i;
-
-    // if node null return 0
-    // if there is no child return 0
-
-    // Calculate size of vertex cover when root is part of it 
-    int size_incl = 0;
-    // size_incl = 1 + vCover(root->left) + vCover(root->right); 
-    
-    // Calculate size of vertex cover when root is not part of it 
-    int size_excl = 0; 
-    // if (root->left) 
-    //   size_excl += 1 + vCover(root->left->left) + vCover(root->left->right); 
-    // if (root->right) 
-    //   size_excl += 1 + vCover(root->right->left) + vCover(root->right->right); 
-  
-    // Minimum of two values is vertex cover, store it before returning 
-    // root->vc =  min(size_incl, size_excl); 
-    dp[node] = min(size_incl, size_excl);
-
-    return dp[node];
-}
+#include "vertexCover.h"
 
 int main(int argc, char **argv) {
 
-    int n, m, u, v, i;
-    graph* g = NULL;
-    int *dp;
+    int n = 6;
+    graph* tree1 = NULL;
+    graph* tree2 = NULL;
+    graph* tree3 = NULL;
+    graph* tree4 = NULL;
 
-    scanf("%d %d", &n, &m);
+/*
+            0
+          /   \
+        1*     2*
+      /   \    |
+     3     4   5
+  
+*/
+    tree1 = makeGraph(n);
 
-    dp = (int *)malloc(n * sizeof(int *));
-    memset(dp, 0, n*sizeof(int));
+    insertEdge(tree1, 0, 1, 1);
+    insertEdge(tree1, 0, 2, 1);
     
-    g = makeGraph(n);
+    insertEdge(tree1, 1, 3, 1);
+    insertEdge(tree1, 1, 4, 1);
 
-    for (i = 0; i < m; i++) {
-        scanf("%d %d", &u, &v);
-        insertEdge(g, u, v, 1);
-        insertEdge(g, v, u, 1);
-    }
+    insertEdge(tree1, 2, 5, 1);
 
-    printf("%d\n", vCover(0, n, m, g, dp));
+    printGraph(tree1);
+
+    printf("solution: %d\n\n", vertexCoverTreeSolver(tree1, 0));
+
+/*
+            0
+         /    \
+        1*     2*
+      /   \     \
+    3      4*    5
+           / \
+          6   7
+*/
+
+    tree2 = makeGraph(8);
+
+    insertEdge(tree2, 0, 1, 1);
+    insertEdge(tree2, 0, 2, 1);
+
+    insertEdge(tree2, 1, 3, 1);
+    insertEdge(tree2, 1, 4, 1);
+
+    insertEdge(tree2, 2, 5, 1);
+
+    insertEdge(tree2, 4, 6, 1);
+    insertEdge(tree2, 4, 7, 1);  
+
+    printGraph(tree2);
+
+    printf("solution: %d\n\n", vertexCoverTreeSolver(tree2, 0));
+
+/*
+        3*
+      / | \
+     0  1  2
+*/
+
+    tree3 = makeGraph(4);
+
+    insertEdge(tree3, 3, 0, 1);
+    insertEdge(tree3, 3, 1, 1);
+    insertEdge(tree3, 3, 2, 1);
+
+    printGraph(tree3);
+
+    printf("solution: %d\n\n", vertexCoverTreeSolver(tree3, 3));
+
+
+/*
+        Tree: null
+ */
+
+    tree4 = makeGraph(1);
+
+    printGraph(tree4);
+
+    printf("solution: %d\n\n", vertexCoverTreeSolver(tree4, 0));
 
     return 0;
 }
