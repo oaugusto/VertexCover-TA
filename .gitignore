@@ -59,3 +59,4 @@ dkms.conf
 bin/*
 build/*
 bin/tp3
+tp3

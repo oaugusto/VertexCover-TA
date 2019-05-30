@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include "graph.h"
 
-int min(int x, int y);
+V_t min(V_t x, V_t y);
 
-int vertexCoverTreeSolver(graph *g, V_t root);
+V_t vertexCoverTreeSolver(graph *g, V_t root);
 
 #endif
