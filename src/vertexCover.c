@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "vertexCover.h"
 
 V_t min(V_t x, V_t y) {
@@ -70,6 +71,84 @@ V_t vertexCoverTreeSolver(graph *tree, V_t root) {
     return min_value;
 }
 
+typedef struct pair {
+    V_t a;
+    V_t b;
+    int valid;
+} pair;
+
 V_t vertexCoverHeuristic(graph* tree) {
-    
+    int i = 0, j = 0; //index
+    pointer next = NULL;
+
+    int vertexCoverSize = 0;
+    int edgeSetSize = tree->nEdges;
+    int *vertexCoverSet = NULL;
+    pair *edgeSet = NULL;
+
+    vertexCoverSet = malloc(sizeof(int) * tree->nNodes); //vertexCoverSet
+    edgeSet = malloc(sizeof(pair) * tree->nEdges); //Set of edges
+
+    //get all edges from the graph
+    for (int i = 0; i < tree->nNodes; i++) {
+        for (next = tree->edges[i]; next != NULL; next = next->next) {
+            if (next->id < i) { //in order to not repeat edge
+                edgeSet[j].a = i;
+                edgeSet[j].b = next->id;
+                edgeSet[j].valid = 1;
+
+                j++;
+            }
+        }
+    }
+ 
+    //select edge and remove all other edges with its vertex a and b
+    while (edgeSetSize != 0) {
+        int i = 0, j = 0; //index
+        int rand_value = rand();
+        int index = rand_value % edgeSetSize; //get a random index
+
+        pair edge;
+
+        //select one edge from the set
+        while (1) {
+            if (edgeSet[i].valid) {
+                if (index == 0) {
+                    edge = edgeSet[i];
+                    edgeSet[i].valid = 0;
+                    edgeSetSize--;
+                    break;
+                }
+                index--;
+            }
+            i++;
+        }
+
+        //edge nodes to set
+        vertexCoverSet[vertexCoverSize] = edge.a;
+        vertexCoverSet[vertexCoverSize + 1] = edge.b;
+
+        vertexCoverSize += 2; //increment set size
+
+        //remove from the vertexCoverSet
+        for (j = 0; j < tree->nEdges; j++) {
+            if (edgeSet[j].valid) {
+                if (edgeSet[j].a == edge.a \
+                        || edgeSet[j].b == edge.a) {
+                    edgeSet[j].valid = 0;
+                    edgeSetSize--;
+                }
+                if (edgeSet[j].a == edge.b \
+                        || edgeSet[j].b == edge.b) {
+                    edgeSet[j].valid = 0;
+                    edgeSetSize--;
+                }
+            }
+        }
+    }
+
+    free(vertexCoverSet);
+    free(edgeSet);
+
+    return vertexCoverSize; 
 }
