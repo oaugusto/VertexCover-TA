@@ -124,7 +124,7 @@ V_t vertexCoverHeuristic(graph* tree) {
             i++;
         }
 
-        //edge nodes to set
+        //edge nodes to cover set
         vertexCoverSet[vertexCoverSize] = edge.a;
         vertexCoverSet[vertexCoverSize + 1] = edge.b;
 
